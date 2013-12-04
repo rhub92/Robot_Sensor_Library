@@ -7,11 +7,6 @@
 
 #include "robotsensor.h"
 
-void initializeLights() {
-	P1DIR |= BIT0;
-	P1DIR |= BIT6;
-}
-
 void initializeSensorSubsystem() {
 	  ADC10CTL0 = ADC10SHT_3 + ADC10ON + ADC10IE; // ADC10ON, interrupt enabled
 	  ADC10CTL1 |= ADC10SSEL1|ADC10SSEL0;                // Select SMCLK
@@ -33,18 +28,13 @@ void initializeRightSensor() {
 	__bis_SR_register(CPUOFF + GIE);
 }
 
-void turnLeftLightOn(){
-	P1OUT |= BIT0;
+unsigned int voltageReading(){
+	return ADC10MEM;
 }
 
-void turnRightLightOn(){
-	P1OUT |= BIT6;
-}
-
-void turnLeftLightOff(){
-	P1OUT &= ~BIT0;
-}
-
-void turnRightLightOff(){
-	P1OUT &= ~BIT6;
+// ADC10 interrupt service routine
+#pragma vector=ADC10_VECTOR
+__interrupt void ADC10_ISR(void)
+{
+  __bic_SR_register_on_exit(CPUOFF);        // Clear CPUOFF bit from 0(SR)
 }

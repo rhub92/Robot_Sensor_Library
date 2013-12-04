@@ -7,19 +7,11 @@
 
 #include <msp430g2553.h>
 
-void initializeLights();
-
 void initializeSensorSubsystem();
 
 void initializeLeftSensor();
 
 void initializeRightSensor();
 
-void turnLeftLightOn();
-
-void turnRightLightOn();
-
-void turnLeftLightOff();
-
-void turnRightLightOff();
+unsigned int voltageReading();
 
